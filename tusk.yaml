@@ -1,9 +1,12 @@
 ---
 options:
   # cli tools
+  gobin:
+    default:
+      value: go install -v github.com/myitcv/gobin@v0.0.14 && ~/go/bin/gobin
   act:
     default:
-      value: act
+      value: ${gobin} -run github.com/nektos/act@v0.2.21
 
 tasks:
   # crud
@@ -77,33 +80,37 @@ tasks:
   lint:
     usage: run the linter
     run:
-      - act -j lint
+      - ${act} -j lint
   test:
     usage: run the tests
     run:
-      - act -j test
+      - ${act} -j test
   pipeline:
     usage: run the the entire pipeline
     run:
-      - act
+      - ${act}
   graph:
     usage: view the execution graph
     run:
-      - act -l
+      - ${act} -l
   list:
     usage: list workflows
     run:
-      - act --list
+      - ${act} --list
   watch:
     usage: watch
     run:
-      - act --watch
+      - ${act} --watch
 
   # cli tools
   cli-act:
     usage: act cli
     run:
-      - act --help
+      - ${act} --help
+  cli-gobin:
+    usage: gobin cli
+    run:
+      - ${gobin} --help
 ---
 
 # ❯ act -h 
