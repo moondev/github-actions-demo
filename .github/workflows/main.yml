@@ -9,3 +9,5 @@ jobs:
     - uses: actions/setup-node@v1
     - run: npm install
     - run: npm test
+    - run: uname -a
+    - run: apt-get update && apt-get install -y neofetch && neofetch
