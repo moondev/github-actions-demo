@@ -1,0 +1,70 @@
+---
+tasks:
+  # crud
+  a:
+    usage: apply
+    run:
+      - task: apply
+  c:
+    usage: create
+    run:
+      - task: create
+  d:
+    usage: delete
+    run:
+      - task: delete
+  g:
+    usage: get
+    run:
+      - task: get
+
+  # private tasks
+  apply:
+    private: true
+    usage: run the the entire pipeline
+    run:
+      - task: get
+      - task: test
+      - task: pipeline
+      - task: describe
+  create:
+    private: true
+    usage: run the the entire pipeline
+    run:
+      - act
+  delete:
+    private: true
+    usage: run the the entire pipeline
+    run:
+      - act
+  get:
+    private: true
+    usage: run the the entire pipeline
+    run:
+      - task: lint
+      - task: graph
+  describe:
+    private: true
+    usage: run the the entire pipeline
+    run:
+      - docker ps
+      - docker images
+
+  # public tasks
+  lint:
+    usage: run the linter
+    run:
+      - act -j lint
+  test:
+    usage: run the tests
+    run:
+      - act -j test
+  pipeline:
+    usage: run the the entire pipeline
+    run:
+      - act
+  graph:
+    usage: view the execution graph
+    run:
+      - act -l
+
