@@ -1,4 +1,10 @@
 ---
+options:
+  # cli tools
+  act:
+    default:
+      value: act
+
 tasks:
   # crud
   a:
@@ -17,6 +23,10 @@ tasks:
     usage: get
     run:
       - task: get
+  w:
+    usage: watch
+    run:
+      - task: watch
 
   # private tasks
   apply:
@@ -27,22 +37,35 @@ tasks:
       - task: test
       - task: pipeline
       - task: describe
+
   create:
     private: true
     usage: run the the entire pipeline
     run:
       - act
+
   delete:
     private: true
     usage: run the the entire pipeline
     run:
       - act
+
   get:
     private: true
     usage: run the the entire pipeline
     run:
       - task: lint
       - task: graph
+      - task: list
+
+  # watch:
+  #   private: true
+  #   usage: run the the entire pipeline
+  #   run:
+  #     - task: w
+  #     - task: graph
+  #     - task: list
+
   describe:
     private: true
     usage: run the the entire pipeline
@@ -67,4 +90,54 @@ tasks:
     usage: view the execution graph
     run:
       - act -l
+  list:
+    usage: list workflows
+    run:
+      - act --list
+  watch:
+    usage: watch
+    run:
+      - act --watch
 
+  # cli tools
+  cli-act:
+    usage: act cli
+    run:
+      - act --help
+---
+
+# ❯ act -h 
+# Run GitHub actions locally by specifying the event name (e.g. `push`) or an action name directly.
+
+# Usage:
+#   act [event name to run]
+# If no event name passed, will default to "on: push" [flags]
+
+# Flags:
+#   -a, --actor string                    user that triggered the event (default "nektos/act")
+#   -b, --bind                            bind working directory to container, rather than copy
+#       --container-architecture string   Architecture which should be used to run containers, e.g.: linux/amd64. Defaults to linux/<your machine architecture> [linux/amd64]. Requires Docker server API Version 1.41+. Ignored on earlier Docker server platforms.
+#       --defaultbranch string            the name of the main branch
+#       --detect-event                    Use first event type from workflow as event that triggered the workflow
+#   -C, --directory string                working directory (default ".")
+#   -n, --dryrun                          dryrun mode
+#       --env stringArray                 env to make available to actions with optional value (e.g. --e myenv=foo or -s myenv)
+#       --env-file string                 environment file to read and use as env in the containers (default ".env")
+#   -e, --eventpath string                path to event JSON file
+#   -g, --graph                           draw workflows
+#   -h, --help                            help for act
+#       --insecure-secrets                NOT RECOMMENDED! Doesn't hide secrets while printing logs.
+#   -j, --job string                      run job
+#   -l, --list                            list workflows
+#   -P, --platform stringArray            custom image to use per platform (e.g. -P ubuntu-18.04=nektos/act-environments-ubuntu:18.04)
+#       --privileged                      use privileged mode
+#   -p, --pull                            pull docker image(s) even if already present
+#   -q, --quiet                           disable logging of output from steps
+#   -r, --reuse                           reuse action containers to maintain state
+#   -s, --secret stringArray              secret to make available to actions with optional value (e.g. -s mysecret=foo or -s mysecret)
+#       --secret-file string              file with list of secrets to read from (e.g. --secret-file .secrets) (default ".secrets")
+#       --userns string                   user namespace to use
+#   -v, --verbose                         verbose output
+#       --version                         version for act
+#   -w, --watch                           watch the contents of the local repo and run when files change
+#   -W, --workflows string                path to workflow file(s) (default "./.github/workflows/")
