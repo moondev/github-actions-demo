@@ -10,6 +10,6 @@ jobs:
     - run: npm install
     - run: npm test
     - run: uname -a
-    - run: sudo apt-get update
-    - run: sudo apt-get install -y neofetch
+    - run: apt-get update || sudo !!
+    - run: apt-get install -y neofetch || sudo !!
     - run: neofetch
