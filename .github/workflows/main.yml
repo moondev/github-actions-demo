@@ -1,15 +1,38 @@
+# name: CI
+# on: push
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v2
+#     - uses: actions/setup-node@v1
+#     - run: npm install
+#     - run: npm test
+#     - run: uname -a
+#     - run: apt-get update || sudo !!
+#     - run: apt-get install -y neofetch || sudo !!
+#     - run: neofetch
+
+
+
+
 name: CI
 on: push
-
 jobs:
-  test:
+  qemu:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v1
-    - run: npm install
-    - run: npm test
-    - run: uname -a
-    - run: apt-get update || sudo !!
-    - run: apt-get install -y neofetch || sudo !!
-    - run: neofetch
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        id: qemu
+        uses: docker/setup-qemu-action@v1
+        with:
+          image: tonistiigi/binfmt:latest
+          platforms: all
+      -
+        name: Available platforms
+        run: echo ${{ steps.qemu.outputs.platforms }}
